@@ -2,7 +2,15 @@ MONO_ARCH = $(shell file -b $$(which mono) | awk '/executable/{print $$NF}')
 XM_PREFIX = /Library/Frameworks/Xamarin.Mac.framework/Versions/Current
 XM_ASSEMBLY = $(XM_PREFIX)/lib/$(MONO_ARCH)/full/Xamarin.Mac.dll
 
-all: SampleApp.exe
+.PHONY: all check-xm bind clean run
+
+all: check-xm SampleApp.exe
+
+check-xm:
+	@if [ ! -d $(XM_PREFIX) ]; then \
+		echo "Xamarin.Mac is not installed"; \
+		exit 1; \
+	fi
 
 bind:
 	sharpie bind -namespace BufferCopyExample -scope . BufferApi.h && mv ApiDefinitions.cs BufferApi.cs
