@@ -1,3 +1,6 @@
+bin/
+obj/
+*.user*
 *.exe
 *.dll
 *.dylib
